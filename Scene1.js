@@ -6,38 +6,54 @@ class Scene1 extends Phaser.Scene{
     preload(){
 	this.load.image("background", "assets/images/background.png");
 
-	this.load.spritesheet("ship","assets/spritesheets/ship.png",{
+	this.load.image("asteroid","assets/images/Asteroid01.png",{
 	    frameWidth: 16,
 	    frameHeight: 16
 	});
 
-	this.load.spritesheet("ship2","assets/spritesheets/ship2.png",{
+	this.load.image("asteroid02","assets/images/Asteroid02.png",{
 	    frameWidth: 32,
 	    frameHeight: 16
 	});
 	
+	this.load.image("asteroid03","assets/images/Asteroid03.png",{
+	    frameWidth: 32,
+	    frameHeight: 16
+	});
 	this.load.spritesheet("explosion","assets/spritesheets/explosion.png",{
 	    frameWidth: 16,
 	    frameHeight: 16
 	});
-
+/*
 	this.load.spritesheet("power-up", "assets/spritesheets/power-up.png",{
 	    frameWidth: 16,
 	    frameHeight: 16
 	});
-
-	this.load.spritesheet("player","assets/spritesheets/ship3.png",{
-	    frameWidth: 32,
-	    frameHeight: 32
+*/
+	this.load.image("player","assets/images/ship3.png",{
+	    frameWidth: 64,
+	    frameHeight: 64
 	});
-  
+
+	this.load.spritesheet("beam","assets/spritesheets/laser.png",{
+	    frameWidth: 16,
+	    frameHeight: 16
+	});
     }
     
     create(){
         this.add.text(20,20, "Loading game... ");   
         this.scene.start("playGame");
 
-		this.anims.create({
+
+	this.anims.create({
+	    key: "beam_anim",
+	    frames: this.anims.generateFrameNumbers("beam"),
+	    frameRate: 20,
+	    repeat: -1
+	});
+	/*
+	this.anims.create({
 	    key: "ship1_anim",
 	    frames: this.anims.generateFrameNumbers("ship"),
 	    frameRate: 20,
@@ -55,14 +71,14 @@ class Scene1 extends Phaser.Scene{
 	    frameRate: 20,
 	    repeat: -1
 	});
-	this.anims.create({
+*/	this.anims.create({
 	    key: "explode",
 	    frames: this.anims.generateFrameNumbers("explosion"),
 	    frameRate: 20,
 	    repeat: -0,
 	    hideOnComplete: true
 	});
-
+/*
 	this.anims.create({
 	    key: "red",
 	    frames: this.anims.generateFrameNumbers("power-up", {
@@ -89,7 +105,7 @@ class Scene1 extends Phaser.Scene{
 	    repeat: -1
 	});
 
-
+*/
 	
     }
     
