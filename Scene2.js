@@ -88,14 +88,28 @@ class Scene2 extends Phaser.Scene {
 	this.score = 0;
 	this.scoreLabel = this.add.bitmapText(10, 5, "pixelFont", "SCORE ", 24);
 
+	this.beamSound = this.sound.add("audio_beam");
+	this.explosionSound = this.sound.add("audio_explosion");
+	this.resetSound = this.sound.add("audio_reset");
+	this.music = this.sound.add("music");
 
+	var musicConfig = {
+	    mute: false,
+	    volume: 1,
+	    rate: 1,
+	    detune: 0,
+	    seek: 0,
+	    loop: false,
+	    delay: 0
+	}
+	this.music.play(musicConfig);
 	
     }
 
-    pickPowerUp(player, powerUp) {
+/*    pickPowerUp(player, powerUp) {
 	powerUp.disableBody(true, true);
     }
-
+*/
     hurtPlayer(player, enemy) {
 	this.resetShipPos(enemy);
 	if(this.player.alpha < 1){
@@ -121,6 +135,8 @@ class Scene2 extends Phaser.Scene {
 	this.scoreLabel.text = "SCORE " + this.score;
 	var scoreFormated = this.zeroPad(this.score, 6);
 	this.scoreLabel.text = "SCORE " + scoreFormated;
+
+	this.explosionSound.play();
     }
 
     resetPlayer(){
@@ -131,6 +147,7 @@ class Scene2 extends Phaser.Scene {
 	this.scoreLabel.text = "SCORE " + this.score;
 	this.player.alpha = 0.5;
 
+	this.resetSound.play();
 	var tween = this.tweens.add({
 	    targets: this.player,
 	    y: config.height -64,
@@ -142,6 +159,7 @@ class Scene2 extends Phaser.Scene {
 	    },
 	    callbackScope: this
 	});
+
     }
 
 
@@ -184,6 +202,7 @@ class Scene2 extends Phaser.Scene {
 
     shootBeam(){
 	var beam = new Beam(this);
+	this.beamSound.play();
     }
 
 
