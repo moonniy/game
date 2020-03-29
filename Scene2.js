@@ -24,11 +24,11 @@ class Scene2 extends Phaser.Scene {
 
 	this.input.on('gameobjectdown', this.destroyShip, this);
 
-	this.add.text(20, 20, "Playing game", {
+/*	this.add.text(20, 20, "Playing game", {
 	    font: "25px Arial",
 	    fill: "yellow"
 	});
-
+*/
 	this.physics.world.setBoundsCollision();
 
 	this.powerUps = this.physics.add.group();
@@ -72,30 +72,56 @@ class Scene2 extends Phaser.Scene {
 
 	this.physics.add.overlap(this.projectiles, this.enemies, this.hitEnemy, null, this);
 
+
+	var graphics = this.add.graphics();
+	graphics.fillStyle(0x000000, 1);
+	graphics.beginPath();
+	graphics.moveTo(0, 0);
+	graphics.lineTo(config.width, 0);
+	graphics.lineTo(config.width, 20);
+	graphics.lineTo(0, 20);
+	graphics.lineTo(0, 0);
+	graphics.closePath();
+	graphics.fillPath();
+
+	
+	this.score = 0;
+	this.scoreLabel = this.add.bitmapText(10, 5, "pixelFont", "SCORE ", 24);
+
+
 	
     }
 
-    //2.2 remove powerup when taken
     pickPowerUp(player, powerUp) {
-	// make it inactive and hide it
 	powerUp.disableBody(true, true);
     }
 
-    // 3.3 reset position of player and enemy when they crash each other
     hurtPlayer(player, enemy) {
 	this.resetShipPos(enemy);
 	player.x = config.width / 2 - 8;
 	player.y = config.height - 64;
+	this.score = 0;
+	this.scoreLabel.text = "SCORE " + this.score;
     }
 
-    // 4.3 reset ship position when hit
     hitEnemy(projectile, enemy) {
 	projectile.destroy();
 	this.resetShipPos(enemy);
+	this.score += 15;
+	this.scoreLabel.text = "SCORE " + this.score;
+	var scoreFormated = this.zeroPad(this.score, 6);
+	this.scoreLabel.text = "SCORE " + scoreFormated;
     }
 
 
-    
+    zeroPad(number, size){
+	var stringNumber = String(number);
+	while(stringNumber.length < (size || 2)){
+            stringNumber = "0" + stringNumber;
+	}
+	return stringNumber;
+    }
+   
     update() {
 
 	this.moveShip(this.asteroid1, 1);
